@@ -10,19 +10,22 @@ type User = {
   profile_path: string | null;
 };
 
-const Page = async ({ params }: { params: { id: string } }) => {
+type PageProps = {
+  params: { id: string };
+};
+
+const Page = async ({ params }: PageProps) => {
   const cast = await datafetch({ params });
   const title = await datafetcht({ params });
 
   return (
     <div className="bg-gradient-to-r from-cyan-800 via-sky-500 to-pink-500 min-h-screen">
       <div className="container mx-auto px-3 md:px-8 py-5 lg:px-16">
-
-        <div className=' space-x-3'>
-          <h2 className='md:text-xl font-medium capitalize inline-block text-white'>
+        <div className="space-x-3">
+          <h2 className="md:text-xl font-medium capitalize inline-block text-white">
             All Cast Members of 
           </h2>
-          <h2 className='md:text-xl font-medium capitalize bg-cyan-700 shadow-sm shadow-black py-1 px-3 rounded-3xl inline-block text-white'>
+          <h2 className="md:text-xl font-medium capitalize bg-cyan-700 shadow-sm shadow-black py-1 px-3 rounded-3xl inline-block text-white">
             &quot;{title.original_title}&quot;
           </h2>
         </div>
