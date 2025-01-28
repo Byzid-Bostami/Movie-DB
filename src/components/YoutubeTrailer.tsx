@@ -1,6 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 
+type Video = {
+  id: string;
+  key: string;
+  name: string;
+  type: string;
+  site: string;
+};
+
 const datafetch = async ({ params }: { params: { id: string } }) => {
   const API_KEY = process.env.API_KEY;
 
@@ -10,7 +18,8 @@ const datafetch = async ({ params }: { params: { id: string } }) => {
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${params.id}/videos?api_key=${API_KEY}&language=en-US`);
+      `https://api.themoviedb.org/3/movie/${params.id}/videos?api_key=${API_KEY}&language=en-US`
+    );
     return response.data.results || [];
   } catch (error) {
     if (error instanceof Error) {
@@ -23,18 +32,10 @@ const datafetch = async ({ params }: { params: { id: string } }) => {
   }
 };
 
-
-
-
-
-
-
-
-
 const YoutubeTrailer = async ({ params }: { params: { id: string } }) => {
-  const videos = await datafetch({ params });
+  const videos: Video[] = await datafetch({ params });
 
-  const trailer = videos.find((video: any) => video.type === 'Trailer' && video.site === 'YouTube');
+  const trailer = videos.find((video) => video.type === 'Trailer' && video.site === 'YouTube');
 
   if (!trailer) {
     return <div>No trailer available</div>;
@@ -42,7 +43,8 @@ const YoutubeTrailer = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <iframe className='w-screen md:w-[670px] md:h-[390px]'
+      <iframe
+        className="w-screen md:w-[670px] md:h-[390px]"
         width="560"
         height="325"
         src={`https://www.youtube.com/embed/${trailer.key}`}

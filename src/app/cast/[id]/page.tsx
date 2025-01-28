@@ -19,8 +19,12 @@ const Page = async ({ params }: { params: { id: string } }) => {
       <div className="container mx-auto px-3 md:px-8 py-5 lg:px-16">
 
         <div className=' space-x-3'>
-        <h2 className='md:text-xl font-medium capitalize inline-block text-white'>All Cast Members of </h2>
-        <h2 className='md:text-xl font-medium capitalize bg-cyan-700 shadow-sm shadow-black py-1 px-3 rounded-3xl inline-block text-white'>"{title.original_title}"</h2>
+          <h2 className='md:text-xl font-medium capitalize inline-block text-white'>
+            All Cast Members of 
+          </h2>
+          <h2 className='md:text-xl font-medium capitalize bg-cyan-700 shadow-sm shadow-black py-1 px-3 rounded-3xl inline-block text-white'>
+            &quot;{title.original_title}&quot;
+          </h2>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 p-4">

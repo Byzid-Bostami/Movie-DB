@@ -37,7 +37,7 @@ const SearchPage = () => {
         const validResults = results.filter((item: User) => item.id && item.title);
         setMyData(validResults);
         setIsError(false);
-      } catch (error: any) {
+      } catch (error: Error) {
         setIsError(true);
         setErrorMessage(error.message || 'An error occurred while fetching data');
       }
@@ -50,14 +50,14 @@ const SearchPage = () => {
     <div className="bg-gradient-to-r from-cyan-800 via-sky-500 to-pink-500 min-h-screen">
       <div className="container mx-auto px-3 md:px-8 py-7 lg:px-16">
         <h2 className="text-white text-lg font-medium capitalize pb-3">
-          Search results for <span>"{query}"</span>
+          Search results for <span>&quot;{query}&quot;</span>
         </h2>
 
         {isError ? (
           <p className="text-red-500 text-center">{errorMessage}</p>
         ) : myData.length === 0 ? (
           <p className="text-white text-center font-medium">
-            No results found for "<span className="font-bold">{query}</span>"
+            No results found for &quot;<span className="font-bold">{query}</span>&quot;
           </p>
         ) : (
           <div className="space-x-4 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
