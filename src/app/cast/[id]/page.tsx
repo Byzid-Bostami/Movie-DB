@@ -10,11 +10,7 @@ type User = {
   profile_path: string | null;
 };
 
-type PageProps = {
-  params: { id: string };
-};
-
-const Page = async ({ params }: PageProps) => {
+const Page = async ({ params }: { params: { id: string } }) => {
   const cast = await datafetch({ params });
   const title = await datafetcht({ params });
 
