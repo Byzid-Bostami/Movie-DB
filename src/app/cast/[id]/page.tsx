@@ -9,11 +9,7 @@ type User = {
   profile_path: string | null;
 };
 
-
-
-
-
-const datafetch = async ({ params }: { params: { id: string } }) => {
+const datafetch = async (params: { id: string }) => {
   const API_KEY = process.env.API_KEY;
 
   if (!API_KEY) {
@@ -22,26 +18,17 @@ const datafetch = async ({ params }: { params: { id: string } }) => {
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${params.id}/credits?api_key=${API_KEY}&language=en-US`);
+      `https://api.themoviedb.org/3/movie/${params.id}/credits?api_key=${API_KEY}&language=en-US`
+    );
     console.log('Movie data fetched:', response.data);
     return response.data.cast || [];
   } catch (error) {
-    if (error instanceof Error) {
-      console.error('Error fetching data:', error.message);
-      throw new Error('Failed to fetch data');
-    } else {
-      console.error('Unexpected error:', error);
-      throw new Error('An unexpected error occurred');
-    }
+    console.error('Error fetching data:', error);
+    throw new Error('Failed to fetch data');
   }
 };
 
-
-
-
-
-
-const datafetcht = async ({ params }: { params: { id: string } }) => {
+const datafetcht = async (params: { id: string }) => {
   const API_KEY = process.env.API_KEY;
 
   if (!API_KEY) {
@@ -50,31 +37,18 @@ const datafetcht = async ({ params }: { params: { id: string } }) => {
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${params.id}?api_key=${API_KEY}`);
+      `https://api.themoviedb.org/3/movie/${params.id}?api_key=${API_KEY}`
+    );
     return response.data;
   } catch (error) {
-    if (error instanceof Error) {
-      console.error('Error fetching data:', error.message);
-      throw new Error('Failed to fetch data');
-    } else {
-      console.error('Unexpected error:', error);
-      throw new Error('An unexpected error occurred');
-    }
+    console.error('Error fetching data:', error);
+    throw new Error('Failed to fetch data');
   }
 };
 
-
-
-
-
-
-
-
-
-
 const Page = async ({ params }: { params: { id: string } }) => {
-  const cast = await datafetch({ params });
-  const title = await datafetcht({ params });
+  const cast = await datafetch(params);
+  const title = await datafetcht(params);
 
   return (
     <div className="bg-gradient-to-r from-cyan-800 via-sky-500 to-pink-500 min-h-screen">
