@@ -1,7 +1,8 @@
-import React from 'react';
-import Image from 'next/image';
-import axios from 'axios';
+import React from "react";
+import Image from "next/image";
+import axios from "axios";
 
+// Define User type
 type User = {
   id: number;
   name: string;
@@ -9,82 +10,82 @@ type User = {
   profile_path: string | null;
 };
 
-const datafetch = async (params: { id: string }) => {
+// Function to fetch cast data
+const fetchCast = async (id: string): Promise<User[]> => {
   const API_KEY = process.env.API_KEY;
-
   if (!API_KEY) {
-    throw new Error('API key is not defined');
+    throw new Error("API key is not defined");
   }
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${params.id}/credits?api_key=${API_KEY}&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}&language=en-US`
     );
-    console.log('Movie data fetched:', response.data);
     return response.data.cast || [];
   } catch (error) {
-    console.error('Error fetching data:', error);
-    throw new Error('Failed to fetch data');
+    console.error("Error fetching cast data:", error);
+    throw new Error("Failed to fetch cast data");
   }
 };
 
-const datafetcht = async (params: { id: string }) => {
+// Function to fetch movie title
+const fetchMovie = async (id: string) => {
   const API_KEY = process.env.API_KEY;
-
   if (!API_KEY) {
-    throw new Error('API key is not defined');
+    throw new Error("API key is not defined");
   }
 
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${params.id}?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
     );
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
-    throw new Error('Failed to fetch data');
+    console.error("Error fetching movie data:", error);
+    throw new Error("Failed to fetch movie data");
   }
 };
 
+// Define the Page component with correct TypeScript typing
 const Page = async ({ params }: { params: { id: string } }) => {
-  const cast = await datafetch(params);
-  const title = await datafetcht(params);
+  const cast = await fetchCast(params.id);
+  const movie = await fetchMovie(params.id);
 
   return (
     <div className="bg-gradient-to-r from-cyan-800 via-sky-500 to-pink-500 min-h-screen">
       <div className="container mx-auto px-3 md:px-8 py-5 lg:px-16">
         <div className="space-x-3">
           <h2 className="md:text-xl font-medium capitalize inline-block text-white">
-            All Cast Members of 
+            All Cast Members of
           </h2>
           <h2 className="md:text-xl font-medium capitalize bg-cyan-700 shadow-sm shadow-black py-1 px-3 rounded-3xl inline-block text-white">
-            &quot;{title.original_title}&quot;
+            &quot;{movie.original_title}&quot;
           </h2>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 p-4">
-          {cast.map((cast: User) => (
+          {cast.map((castMember: User) => (
             <div
-              key={cast.id}
+              key={castMember.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
             >
               <Image
                 className="object-cover w-full h-48"
                 src={
-                  cast.profile_path
-                    ? `https://image.tmdb.org/t/p/w500${cast.profile_path}`
-                    : '/placeholder.png' // Use a placeholder image for missing paths
+                  castMember.profile_path
+                    ? `https://image.tmdb.org/t/p/w500${castMember.profile_path}`
+                    : "/placeholder.png" // Placeholder for missing images
                 }
-                alt={cast.name}
+                alt={castMember.name}
                 height={300}
                 width={300}
               />
               <div className="p-4">
                 <h2 className="text-lg font-semibold text-gray-800 truncate">
-                  {cast.name}
+                  {castMember.name}
                 </h2>
                 <p className="text-sm text-gray-600 truncate">
-                  Char: {cast.character}
+                  Char: {castMember.character}
                 </p>
               </div>
             </div>
