@@ -11,7 +11,7 @@ type User = {
   profile_path: string;
 };
 
-export const datafetch = async ({ params }: { params: { id: string } }) => {
+ const datafetch = async ({ params }: { params: { id: string } }) => {
   const API_KEY = process.env.API_KEY;
 
   if (!API_KEY) {

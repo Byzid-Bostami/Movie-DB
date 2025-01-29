@@ -8,7 +8,7 @@ import Head from 'next/head';
 
 
 
-export const datafetcht = async ({ params }: { params: { id: string } }) => {
+const datafetcht = async ({ params }: { params: { id: string } }) => {
   const API_KEY = process.env.API_KEY;
 
   if (!API_KEY) {
